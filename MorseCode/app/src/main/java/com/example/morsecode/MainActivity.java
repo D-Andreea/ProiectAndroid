@@ -23,6 +23,8 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
     public static final Map<Character, String> morseCode = new HashMap<Character, String>();
     static String smsMessage = new String();
+    static StringBuilder show = new StringBuilder();
+
 
     MainActivity()
     {
@@ -193,9 +195,7 @@ public class MainActivity extends AppCompatActivity {
                 // public static final String SENT = "content://sms/sent";
                 // public static final String DRAFT = "content://sms/draft";
                 Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
-
                 String encoded = new String();
-
                 if (cursor.moveToFirst()) { // must check the result to prevent exception
                     do {
                         for(int idx = 0; idx < cursor.getColumnCount(); idx++)
@@ -212,10 +212,10 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // empty box, no SMS
                 }
-
                 Log.d("my message ", encoded);
 
-                StringBuilder show = new StringBuilder();
+                show = new StringBuilder();
+
                 String characters[] = encoded.split(" ");
                 for(int i = 0; i < characters.length; i++)
                 {
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                         {
                             show.append(pair.getKey());
                         }
-                        it.remove(); // avoids a ConcurrentModificationException
+                        //it.remove(); // avoids a ConcurrentModificationException
                     }
                 }
 
